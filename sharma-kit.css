@@ -1,8 +1,9 @@
-/*! Sharma design kit v1.2 (preview) · Sharma Electric & HVAC
+/*! Sharma design kit v1.3 · Sharma Electric & HVAC
    One shared look for every Sharma app. Load once:
    <link rel="stylesheet" href="https://sharma-kit.sharma-crew.workers.dev/sharma-kit.css">
    Themes: default navy/gold · <html data-theme="track"> for Sharma Track (white + #0058a3)
-   Light/dark follows the phone. Force with <html data-scheme="light|dark">.
+   Always LIGHT by default, whatever the phone is set to. Dark only when the person picks it in the
+   app's Appearance switch (SK.scheme), which sets <html data-scheme="dark">.
    Rules: no emoji, 17px body, nothing under 13px, one main action per screen, taps >= 44px. */
 
 /* ---------- 1. Tokens ---------- */
@@ -38,23 +39,7 @@
   --sk-red:#C4281C; --sk-green:#176B32;
   color-scheme:light;
 }
-/* dark neutrals */
-@media (prefers-color-scheme:dark){
-  :root:not([data-scheme="light"]){
-    --sk-bg:#000; --sk-surface:#1C1C1E; --sk-surface-2:#2C2C2E; --sk-elev:#2C2C2E;
-    --sk-text:#F2F2F7; --sk-text-2:#A1A1AA; --sk-text-3:#6E6E76;
-    --sk-line:rgba(84,84,88,.55); --sk-fill:rgba(118,118,128,.24); --sk-fill-2:rgba(118,118,128,.16);
-    --sk-shadow:none; --sk-scrim:rgba(0,0,0,.55);
-    --sk-tint:#8EA8EC; --sk-header-bg:#1a2f61;
-    --sk-s-idle-fg:#C7C7CC; --sk-s-idle-bg:rgba(142,142,147,.24);
-    --sk-s-prog-fg:#A9BDF2; --sk-s-prog-bg:rgba(94,129,214,.24);
-    --sk-s-need-fg:#FFD38C; --sk-s-need-bg:rgba(240,168,70,.17);
-    --sk-s-done-fg:#6FD08C; --sk-s-done-bg:rgba(48,209,88,.18);
-    --sk-s-prob-fg:#FF8A80; --sk-s-prob-bg:rgba(255,69,58,.2);
-    --sk-red:#FF6961; --sk-green:#6FD08C;
-    color-scheme:dark;
-  }
-}
+/* dark: only through the Appearance switch (no automatic switching) */
 [data-scheme="dark"]{
   --sk-bg:#000; --sk-surface:#1C1C1E; --sk-surface-2:#2C2C2E; --sk-elev:#2C2C2E;
   --sk-text:#F2F2F7; --sk-text-2:#A1A1AA; --sk-text-3:#6E6E76;
@@ -77,9 +62,6 @@
   --sk-brand:#0058a3; --sk-brand-press:#00467f; --sk-tint:#0058a3; --sk-accent:#0058a3;
   --sk-header-bg:#fff; --sk-header-fg:#0058a3; --sk-header-rule:#0058a3;
   --sk-s-prog-fg:#0058a3; --sk-s-prog-bg:rgba(0,88,163,.1);
-}
-@media (prefers-color-scheme:dark){
-  [data-theme="track"]:not([data-scheme="light"]){ --sk-header-bg:#1C1C1E; --sk-header-fg:#5AA9F0; --sk-tint:#5AA9F0; --sk-s-prog-fg:#8CC4F5; --sk-s-prog-bg:rgba(90,169,240,.2); }
 }
 [data-theme="track"][data-scheme="dark"],[data-scheme="dark"] [data-theme="track"]{ --sk-header-bg:#1C1C1E; --sk-header-fg:#5AA9F0; --sk-tint:#5AA9F0; --sk-s-prog-fg:#8CC4F5; --sk-s-prog-bg:rgba(90,169,240,.2); }
 
@@ -349,6 +331,16 @@ html.sk-noscroll,html.sk-noscroll body{overflow:hidden}
 @media (prefers-reduced-motion:reduce){
   .sk *,.sk *::before,.sk *::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
 }
+
+/* Appearance switch: <div class="sk-list" id="appearance"></div> + SK.scheme.mountToggle("#appearance") */
+.sk-segmented{display:inline-grid;grid-auto-flow:column;grid-auto-columns:1fr;background:var(--sk-fill);border-radius:9px;padding:2px;gap:2px;min-width:168px;flex:none}
+.sk-segmented button{min-height:42px;padding:0 14px;border:0;background:none;border-radius:7px;font-size:var(--sk-fs-note);font-weight:500;color:var(--sk-text);cursor:pointer;
+  transition:background-color .2s var(--sk-ease),box-shadow .2s var(--sk-ease);touch-action:manipulation;-webkit-user-select:none;user-select:none}
+.sk-segmented button[aria-checked="true"]{background:var(--sk-elev);font-weight:600;box-shadow:0 1px 3px rgba(0,0,0,.12),0 0 0 .5px rgba(0,0,0,.04)}
+.sk-segmented button:active,.sk-segmented button.is-pressed{opacity:.6;transition-duration:0s}
+[data-scheme="dark"] .sk-segmented{background:#2C2C2E}
+[data-scheme="dark"] .sk-segmented button[aria-checked="true"]{background:#636366;color:#fff;box-shadow:none}
+.sk-appearance{min-height:60px;padding-top:8px;padding-bottom:8px}
 
 /* ---------- 20. Native feel (v1.2): every app inherits this ---------- */
 :root{--sk-spring:cubic-bezier(.32,.72,0,1);--sk-push:.34s}

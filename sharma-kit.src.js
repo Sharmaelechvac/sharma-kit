@@ -1,4 +1,4 @@
-/*! Sharma design kit v1.2 · small helpers for the shared look.
+/*! Sharma design kit v1.3 · small helpers for the shared look.
    <script src="https://sharma-kit.sharma-crew.workers.dev/sharma-kit.js" defer></script>
    Adds the icon set, tab highlighting, bottom sheets, toast, offline banner, search clear,
    the shared lock screen and (v1.2) the native feel: screen stack with push/pop and edge swipe,
@@ -174,7 +174,7 @@
   var KIT_BASE = (function(){ var s = doc.currentScript && doc.currentScript.src; return s ? s.replace(/sharma-kit(\.src)?\.js.*$/, "") : ""; })();
 
   /* ---- instant press: class goes on at pointerdown (no 300ms wait, no scroll delay) ---- */
-  var PRESS = ".sk-btn,.sk-card,a.sk-row,button.sk-row,.sk-tab,.sk-iconbtn,.sk-header__btn,.sk-header__logo,.sk-tile,.sk-seg button,.sk-seg a,.sk-pad button,.sk-section-title a,[data-press]";
+  var PRESS = ".sk-segmented button,.sk-btn,.sk-card,a.sk-row,button.sk-row,.sk-tab,.sk-iconbtn,.sk-header__btn,.sk-header__logo,.sk-tile,.sk-seg button,.sk-seg a,.sk-pad button,.sk-section-title a,[data-press]";
   var pressed = null, px = 0, py = 0;
   function unpress(){ if (pressed) { pressed.classList.remove("is-pressed"); pressed = null; } }
   doc.addEventListener("pointerdown", function(e){
@@ -491,6 +491,51 @@
     addEventListener("load", function(){ navigator.serviceWorker.register(u, { scope:"/" }).catch(function(e){ console.warn("[sharma-kit] service worker", e); }); });
   }
 
+
+  /* =====================================================================
+     v1.3 APPEARANCE. Light is the default on every phone. Dark only when the
+     person picks it: SK.scheme.set("dark"). Saved per app (localStorage "sk-scheme").
+     Head snippet (paste right after the theme-color meta, before the kit CSS) applies
+     it before first paint so there is no flash:
+     <script>(function(){try{if(localStorage.getItem("sk-scheme")==="dark"){var d=document.documentElement;d.setAttribute("data-scheme","dark");var m=document.querySelector('meta[name="theme-color"]');if(m)m.content=d.getAttribute("data-theme")==="track"?"#1C1C1E":"#1a2f61"}}catch(e){}})()</script>
+     ===================================================================== */
+  var SCHEME_KEY = "sk-scheme";
+  var SCHEME_COLORS = { navy:{ light:"#264387", dark:"#1a2f61" }, track:{ light:"#ffffff", dark:"#1C1C1E" } };
+  function schemeGet(){ try { return localStorage.getItem(SCHEME_KEY) === "dark" ? "dark" : "light"; } catch (e) { return "light"; } }
+  function schemeApply(v){
+    var r = doc.documentElement, track = r.getAttribute("data-theme") === "track";
+    r.setAttribute("data-scheme", v);
+    var m = doc.querySelector('meta[name="theme-color"]');
+    if (!m) { m = doc.createElement("meta"); m.name = "theme-color"; doc.head.appendChild(m); }
+    m.setAttribute("content", SCHEME_COLORS[track ? "track" : "navy"][v]);
+    /* status bar text: white on the navy header; Track's white header needs dark text in light */
+    var sb = doc.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');
+    if (sb && track) sb.setAttribute("content", v === "dark" ? "black-translucent" : "default");
+    doc.querySelectorAll("[data-scheme-set]").forEach(function(b){ b.setAttribute("aria-checked", String(b.getAttribute("data-scheme-set") === v)); });
+  }
+  function schemeSet(v){
+    v = v === "dark" ? "dark" : "light";
+    try { localStorage.setItem(SCHEME_KEY, v); } catch (e) {}
+    schemeApply(v);
+    try { doc.dispatchEvent(new CustomEvent("sk:scheme", { detail:{ scheme:v } })); } catch (e) {}
+    return v;
+  }
+  /* ready-made Settings row: "Appearance  [ Light | Dark ]". el = a .sk-list (or any box; a list is added) */
+  function mountToggle(el){
+    el = typeof el === "string" ? doc.querySelector(el) : el; if (!el) return null;
+    var cur = schemeGet();
+    var row = '<div class="sk-row sk-appearance"><div class="sk-row__body"><div class="sk-row__title" id="sk-appearance-label">Appearance</div></div>'
+      + '<div class="sk-segmented" role="radiogroup" aria-labelledby="sk-appearance-label">'
+      + '<button type="button" role="radio" data-scheme-set="light" aria-checked="' + (cur === "light") + '">Light</button>'
+      + '<button type="button" role="radio" data-scheme-set="dark" aria-checked="' + (cur === "dark") + '">Dark</button></div></div>';
+    if (el.classList.contains("sk-list")) el.innerHTML = row; else el.innerHTML = '<div class="sk-list">' + row + '</div>';
+    return el;
+  }
+  doc.addEventListener("click", function(e){ var b = e.target.closest && e.target.closest("[data-scheme-set]"); if (b) schemeSet(b.getAttribute("data-scheme-set")); });
+  /* another tab of the same app changed it */
+  addEventListener("storage", function(e){ if (e.key === SCHEME_KEY) schemeApply(schemeGet()); });
+  schemeApply(schemeGet());
+
   function init(){
     injectSprite(); syncTabs(); offline(); syncDates();
     doc.querySelectorAll(".sk-search input").forEach(function(i){ i.parentNode.classList.toggle("has-value", !!i.value); });
@@ -498,5 +543,5 @@
   addEventListener("hashchange", syncTabs);
   if (doc.readyState === "loading") doc.addEventListener("DOMContentLoaded", init); else init();
 
-  window.SK = { stack:function(c,o){ return new Stack(c,o); }, data:data, dataClear:dataClear, registerSW:registerSW, reducedMotion:function(){ return RM.matches; }, kitBase:KIT_BASE, icon:icon, pill:pill, fmtDate:fmtDate, late:late, lateHtml:lateHtml, dateField:dateField, syncDates:syncDates, todayET:todayET, STATUS:Object.keys(STATUS), openSheet:openSheet, closeSheet:closeSheet, toast:toast, lock:lock, syncTabs:syncTabs, esc:esc, version:"1.2" };
+  window.SK = { scheme:{ get:schemeGet, set:schemeSet, mountToggle:mountToggle, apply:function(){ schemeApply(schemeGet()); } }, stack:function(c,o){ return new Stack(c,o); }, data:data, dataClear:dataClear, registerSW:registerSW, reducedMotion:function(){ return RM.matches; }, kitBase:KIT_BASE, icon:icon, pill:pill, fmtDate:fmtDate, late:late, lateHtml:lateHtml, dateField:dateField, syncDates:syncDates, todayET:todayET, STATUS:Object.keys(STATUS), openSheet:openSheet, closeSheet:closeSheet, toast:toast, lock:lock, syncTabs:syncTabs, esc:esc, version:"1.3" };
 })();
