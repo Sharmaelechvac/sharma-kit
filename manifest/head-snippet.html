@@ -1,8 +1,11 @@
-<!-- Sharma kit: paste inside <head> of every app. Replace APP_NAME. -->
+<!-- Sharma kit v1.3: paste inside <head> of every app. Replace APP_NAME. -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>APP_NAME · Sharma Electric &amp; HVAC</title>
 <meta name="theme-color" content="#264387">
+<meta name="color-scheme" content="light">
+<!-- v1.3 Appearance: light by default; dark only if the person picked it in Settings. Keep this line right here, before the kit CSS. -->
+<script>(function(){try{if(localStorage.getItem("sk-scheme")==="dark"){var d=document.documentElement;d.setAttribute("data-scheme","dark");var m=document.querySelector('meta[name="theme-color"]');if(m)m.content=d.getAttribute("data-theme")==="track"?"#1C1C1E":"#1a2f61"}}catch(e){}})()</script>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -12,5 +15,6 @@
 <link rel="icon" type="image/png" sizes="32x32" href="https://sharma-kit.sharma-crew.workers.dev/assets/favicon-32.png">
 <link rel="stylesheet" href="https://sharma-kit.sharma-crew.workers.dev/sharma-kit.css">
 <script src="https://sharma-kit.sharma-crew.workers.dev/sharma-kit.js" defer></script>
-<!-- Sharma Track apps: add data-theme="track" on <html>, theme-color #0058a3 (light) and
+<!-- Sharma Track apps: add data-theme="track" on <html>, theme-color #ffffff and status-bar-style "default"
+     (white header; the kit switches both when the person picks Dark) and
      the -track icons (apple-touch-icon-track.png, icon-512-track.png). -->
