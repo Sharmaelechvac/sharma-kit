@@ -1,4 +1,4 @@
-/*! Sharma design kit v1.3 · small helpers for the shared look.
+/*! Sharma design kit v1.4 · small helpers for the shared look.
    <script src="https://sharma-kit.sharma-crew.workers.dev/sharma-kit.js" defer></script>
    Adds the icon set, tab highlighting, bottom sheets, toast, offline banner, search clear,
    the shared lock screen and (v1.2) the native feel: screen stack with push/pop and edge swipe,
@@ -536,6 +536,38 @@
   addEventListener("storage", function(e){ if (e.key === SCHEME_KEY) schemeApply(schemeGet()); });
   schemeApply(schemeGet());
 
+
+  /* =====================================================================
+     v1.4 COMPANY LOGO. SK.logo(name, src, { size:"lg"|"sm" }) returns the HTML for a
+     rounded-square avatar: the company's own logo file if src is given, otherwise (or if the
+     file fails to load) a navy badge with 1-2 initials. Never draw or invent a logo.
+     ===================================================================== */
+  var LOGO_SKIP = /^(the|and|of|llc|inc|co|corp|ltd|&|\+|-)$/i;
+  function initials(name){
+    var s = String(name || "").replace(/\(.*?\)/g, " ").split("/")[0].replace(/[^A-Za-z0-9.&'\s-]/g, " ").trim();
+    var words = s.split(/\s+/).filter(function(w){ return w && !LOGO_SKIP.test(w.replace(/\./g, "")); });
+    if (!words.length) return "?";
+    var first = words[0].replace(/[^A-Za-z0-9.]/g, "");
+    /* "A.L. Milton" -> AM ; "BCL Homes" -> BH ; "AMG" -> AM ; "Guida Group" -> GG */
+    if (/^([A-Za-z]\.){2,}$/.test(first)) return (first.charAt(0) + (words[1] ? words[1].charAt(0) : first.charAt(2))).toUpperCase();
+    if (words.length === 1) return (/^[A-Z0-9]{2,}$/.test(first) ? first.slice(0, 2) : first.charAt(0)).toUpperCase();
+    return (first.charAt(0) + words[1].replace(/[^A-Za-z0-9]/g, "").charAt(0)).toUpperCase();
+  }
+  function escAttr(s){ return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){ return { "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]; }); }
+  function logo(name, src, opts){
+    opts = opts || {};
+    var cls = "sk-logo" + (opts.size ? " sk-logo--" + opts.size : "") + (opts.className ? " " + opts.className : "");
+    var ini = initials(name);
+    if (src) return '<span class="' + cls + ' has-img" data-initials="' + escAttr(ini) + '" aria-hidden="true"><img src="' + escAttr(src) + '" alt="" loading="lazy" decoding="async"></span>';
+    return '<span class="' + cls + '" aria-hidden="true">' + escAttr(ini) + '</span>';
+  }
+  /* a logo file that fails to load falls back to the initials badge */
+  doc.addEventListener("error", function(e){
+    var img = e.target; if (!img || img.tagName !== "IMG") return;
+    var box = img.parentNode; if (!box || !box.classList || !box.classList.contains("sk-logo")) return;
+    box.classList.remove("has-img"); box.textContent = box.getAttribute("data-initials") || "?";
+  }, true);
+
   function init(){
     injectSprite(); syncTabs(); offline(); syncDates();
     doc.querySelectorAll(".sk-search input").forEach(function(i){ i.parentNode.classList.toggle("has-value", !!i.value); });
@@ -543,5 +575,5 @@
   addEventListener("hashchange", syncTabs);
   if (doc.readyState === "loading") doc.addEventListener("DOMContentLoaded", init); else init();
 
-  window.SK = { scheme:{ get:schemeGet, set:schemeSet, mountToggle:mountToggle, apply:function(){ schemeApply(schemeGet()); } }, stack:function(c,o){ return new Stack(c,o); }, data:data, dataClear:dataClear, registerSW:registerSW, reducedMotion:function(){ return RM.matches; }, kitBase:KIT_BASE, icon:icon, pill:pill, fmtDate:fmtDate, late:late, lateHtml:lateHtml, dateField:dateField, syncDates:syncDates, todayET:todayET, STATUS:Object.keys(STATUS), openSheet:openSheet, closeSheet:closeSheet, toast:toast, lock:lock, syncTabs:syncTabs, esc:esc, version:"1.3" };
+  window.SK = { logo:logo, initials:initials, scheme:{ get:schemeGet, set:schemeSet, mountToggle:mountToggle, apply:function(){ schemeApply(schemeGet()); } }, stack:function(c,o){ return new Stack(c,o); }, data:data, dataClear:dataClear, registerSW:registerSW, reducedMotion:function(){ return RM.matches; }, kitBase:KIT_BASE, icon:icon, pill:pill, fmtDate:fmtDate, late:late, lateHtml:lateHtml, dateField:dateField, syncDates:syncDates, todayET:todayET, STATUS:Object.keys(STATUS), openSheet:openSheet, closeSheet:closeSheet, toast:toast, lock:lock, syncTabs:syncTabs, esc:esc, version:"1.4" };
 })();
