@@ -1,0 +1,7 @@
+{
+  // Sharma design kit, served as static files (no data, no secrets).
+  "name": "sharma-kit",
+  "main": "deploy/worker.js",
+  "compatibility_date": "2026-11-09",
+  "assets": { "directory": "./", "binding": "ASSETS" }
+}
