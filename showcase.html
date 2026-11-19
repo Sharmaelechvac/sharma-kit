@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en" class="sk" data-scheme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sharma design kit · showcase</title>
+<link rel="icon" type="image/png" href="assets/favicon-32.png">
+<link rel="stylesheet" href="sharma-kit.css">
+<script src="sharma-kit.js" defer></script>
+<style>
+  body.sk{background:#E4E7EE}
+  .phone .sk-tiles{grid-template-columns:1fr 1fr}
+  .wrap{max-width:1320px;margin:0 auto;padding:36px 24px 60px}
+  .intro h1{margin:0}
+  .intro p{max-width:760px}
+  .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(390px,1fr));gap:24px;margin-top:28px;align-items:start}
+  .phone{width:390px;justify-self:center;border-radius:28px;overflow:hidden;box-shadow:0 0 0 1px rgba(0,0,0,.08),0 20px 50px -20px rgba(20,30,60,.35)}
+  .phone .sk-scope{padding-bottom:0}
+  .lbl{font:600 13px var(--sk-font);color:#5B6170;text-transform:none;margin:0 0 10px;text-align:center}
+  .blk{padding:0 16px}
+  .h{margin:22px 4px 8px;font-size:15px;font-weight:600;color:var(--sk-text-2)}
+  .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .icons{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;background:var(--sk-surface);border-radius:var(--sk-radius);padding:12px;border:.5px solid var(--sk-line)}
+  .icons div{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;color:var(--sk-text-2);padding:6px 0;text-align:center;word-break:break-word}
+  .icons .sk-icon{color:var(--sk-text)}
+  .swatch{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .swatch div{border-radius:10px;height:56px;display:flex;align-items:flex-end;padding:6px 8px;font:600 12px var(--sk-font);color:#fff}
+  .type>*{margin:0 0 6px}
+  .lockbox{border-radius:var(--sk-radius);overflow:hidden}
+  .lockbox .sk-lock{padding:28px 16px 18px}
+  .sheetbox{position:relative;background:var(--sk-scrim);padding-top:40px;border-radius:var(--sk-radius);overflow:hidden}
+  .sheetbox .sk-sheet{border-radius:14px 14px 0 0}
+  .toastbox{display:flex;justify-content:center;padding:4px 0}
+  .toastbox .sk-toast{position:static;transform:none;opacity:1}
+  .tabwrap .sk-tabbar{border-radius:0 0 28px 28px}
+</style>
+</head>
+<body class="sk">
+<div class="wrap">
+  <div class="intro">
+    <h1 class="sk-title">Sharma design kit</h1>
+    <p class="sk-note">One look for every Sharma app. Navy #264387 for headers and main buttons, gold #F0A846 only for the thin header line, "Needs you" and badges. iPhone's own font, 17px body text, nothing under 13px, every tap at least 44px. Left: light. Right: dark (follows the phone). Bottom: Sharma Track theme.</p>
+  </div>
+  <div class="cols" id="cols"></div>
+</div>
+
+<template id="phone">
+  <div>
+    <p class="lbl"></p>
+    <div class="phone">
+      <div class="sk-scope sk-demo">
+        <header class="sk-header"><div class="sk-header__bar">
+          <div class="sk-header__lead"><span class="sk-header__logo"><img src="assets/logo-white-header.png" alt="Sharma Electric &amp; HVAC" width="103" height="20" data-logo></span></div>
+          <div class="sk-header__title" data-apptitle>Permits</div>
+          <div class="sk-header__trail"><button class="sk-header__btn" aria-label="Add"><svg class="sk-icon"><use href="#i-plus"/></svg></button></div>
+        </div></header>
+        <div class="sk-offline is-shown"><svg class="sk-icon"><use href="#i-wifi-off"/></svg><span>No signal. Showing last saved.</span></div>
+
+        <div class="blk">
+          <div class="sk-pagehead"><div><h1 class="sk-title">Today</h1><p class="sk-note">Thursday, November 19</p></div></div>
+
+          <div class="h">Search and segmented control</div>
+          <div class="sk-search-row"><label class="sk-search"><svg class="sk-icon"><use href="#i-search"/></svg><input type="search" placeholder="Builder, address, note"></label><button class="sk-iconbtn is-active" aria-label="Filter"><svg class="sk-icon"><use href="#i-filter"/></svg></button></div>
+          <div class="sk-seg"><button aria-selected="true">Open</button><button>Due</button><button>Done</button><button>All</button></div>
+
+          <div class="h">Cards: title, one detail line, status pill, chevron. Red only for late.</div>
+          <div class="sk-stack">
+            <a class="sk-card" href="#"><div class="sk-card__title">120 Sample Ridge Dr</div><span class="sk-pill sk-pill--need">Needs you</span><div class="sk-card__detail">Sample Builder · Rough-in inspection</div><div class="sk-card__meta"><b>$12,400</b> · <span class="sk-late">5 days late</span></div><svg class="sk-icon sk-card__chev"><use href="#i-chevron-right"/></svg></a>
+            <a class="sk-card" href="#"><div class="sk-card__title">Lot 7 Model Home</div><span class="sk-pill sk-pill--prog">In progress</span><div class="sk-card__detail">Sample Builder · HVAC</div><div class="sk-card__meta">Trim out · 3 of 5 done</div><svg class="sk-icon sk-card__chev"><use href="#i-chevron-right"/></svg></a>
+            <a class="sk-card" href="#"><div class="sk-card__title">Lot 14 Sample Oaks</div><span class="sk-pill sk-pill--idle">Not started</span><div class="sk-card__detail">Sample Builder · Electrical</div><div class="sk-card__meta">Starts Dec 2</div><svg class="sk-icon sk-card__chev"><use href="#i-chevron-right"/></svg></a>
+            <a class="sk-card" href="#"><div class="sk-card__title">Riverside model</div><span class="sk-pill sk-pill--done">Done</span><div class="sk-card__detail">Sample Builder · Electrical</div><div class="sk-card__meta">Final passed Nov 12</div><svg class="sk-icon sk-card__chev"><use href="#i-chevron-right"/></svg></a>
+            <a class="sk-card" href="#"><div class="sk-card__title">Harbor View II</div><span class="sk-pill sk-pill--prob">Problem</span><div class="sk-card__detail">Sample Builder · Permit</div><div class="sk-card__meta">Permit expired Nov 10</div><svg class="sk-icon sk-card__chev"><use href="#i-chevron-right"/></svg></a>
+          </div>
+
+          <div class="h">Summary tiles (real numbers only)</div>
+          <div class="sk-tiles">
+            <div class="sk-tile"><div class="sk-tile__label">Open jobs</div><div class="sk-tile__value">18</div><div class="sk-tile__sub">6 builders</div></div>
+            <div class="sk-tile sk-tile--need"><div class="sk-tile__label">Needs you</div><div class="sk-tile__value">3</div><div class="sk-tile__sub">2 today · 1 late</div></div>
+          </div>
+
+          <div class="h">Grouped list</div>
+          <div class="sk-list">
+            <a class="sk-row sk-row--icon" href="#"><span class="sk-row__icon"><svg class="sk-icon"><use href="#i-doc"/></svg></span><div class="sk-row__body"><div class="sk-row__title">Permits</div></div><span class="sk-row__value">4</span><svg class="sk-icon sk-row__chev"><use href="#i-chevron-right"/></svg></a>
+            <a class="sk-row sk-row--icon" href="#"><span class="sk-row__icon"><svg class="sk-icon"><use href="#i-clipboard"/></svg></span><div class="sk-row__body"><div class="sk-row__title">Inspections</div><div class="sk-row__sub">Next: rough-in, tomorrow</div></div><svg class="sk-icon sk-row__chev"><use href="#i-chevron-right"/></svg></a>
+            <a class="sk-row sk-row--icon" href="#"><span class="sk-row__icon"><svg class="sk-icon"><use href="#i-camera"/></svg></span><div class="sk-row__body"><div class="sk-row__title">Photos</div></div><span class="sk-row__value">126</span><svg class="sk-icon sk-row__chev"><use href="#i-chevron-right"/></svg></a>
+          </div>
+
+          <div class="h">Form fields</div>
+          <div class="sk-list">
+            <label class="sk-field"><span class="sk-field__label">Builder</span><input class="sk-field__input" value="Sample Builder"></label>
+            <label class="sk-field sk-field--row"><span class="sk-field__label">Trade</span><select class="sk-field__input"><option>Electrical</option></select></label>
+            <label class="sk-field sk-field--row sk-date"><span class="sk-field__label">Follow up on</span><span class="sk-date__text"></span><input class="sk-date__input" type="date" value="2026-11-19"></label>
+            <label class="sk-field sk-field--row"><span class="sk-field__label">Remember this phone</span><input class="sk-switch" type="checkbox" checked></label>
+          </div>
+
+          <div class="h">Buttons: one main action per screen</div>
+          <div class="sk-actions">
+            <button class="sk-btn"><svg class="sk-icon"><use href="#i-camera"/></svg>Add photo</button>
+            <button class="sk-btn sk-btn--secondary">Secondary choice</button>
+            <div class="row" style="justify-content:space-between"><button class="sk-btn sk-btn--text">Text button</button><button class="sk-btn sk-btn--danger sk-btn--inline">Delete</button></div>
+          </div>
+
+          <div class="h">Status words (the only five, all pass 4.5:1)</div>
+          <div class="row"><span class="sk-pill sk-pill--idle">Not started</span><span class="sk-pill sk-pill--prog">In progress</span><span class="sk-pill sk-pill--need">Needs you</span><span class="sk-pill sk-pill--done">Done</span><span class="sk-pill sk-pill--prob">Problem</span><span class="sk-tag">Tag</span></div>
+
+          <div class="h">Empty state</div>
+          <div class="sk-list"><div class="sk-empty sk-empty--done"><div class="sk-empty__icon"><svg class="sk-icon"><use href="#i-check"/></svg></div><p class="sk-empty__title">Nothing due today</p><p class="sk-empty__text">Inspections show up here the day before.</p></div></div>
+
+          <div class="h">Bottom sheet</div>
+          <div class="sheetbox"><section class="sk-sheet is-open"><div class="sk-sheet__grab"></div>
+            <div class="sk-sheet__head"><button class="sk-btn sk-btn--text">Cancel</button><div class="sk-sheet__title">New permit</div><span></span></div>
+            <div class="sk-sheet__body"><div class="sk-list"><label class="sk-field"><span class="sk-field__label">Address</span><input class="sk-field__input" placeholder="Job address"></label><label class="sk-field sk-field--row"><span class="sk-field__label">County</span><select class="sk-field__input"><option>Sample County</option></select></label></div></div>
+            <div class="sk-sheet__foot"><button class="sk-btn">Save permit</button></div></section></div>
+
+          <div class="h">Toast</div>
+          <div class="toastbox"><div class="sk-toast is-shown"><svg class="sk-icon"><use href="#i-check"/></svg><span>Saved</span></div></div>
+
+          <div class="h">Lock screen (one for every locked app)</div>
+          <div class="lockbox" data-lock></div>
+
+          <div class="h">Type scale</div>
+          <div class="sk-card sk-card--plain type">
+            <p class="sk-title">Title 34</p><p class="sk-h2">Section 22</p><p class="sk-body">Body 17. Plain words, short lines.</p><p class="sk-note">Notes 15, grey.</p><p class="sk-small">Smallest 13. Nothing smaller.</p>
+          </div>
+
+          <div class="h">Colours</div>
+          <div class="swatch"><div style="background:#264387">Navy</div><div style="background:#1a2f61">Navy dark</div><div style="background:#F0A846;color:#3b2604">Gold</div><div style="background:#0058a3">Track</div></div>
+
+          <div class="h">Line icons (no emoji)</div>
+          <div class="icons" data-icons></div>
+          <div class="sk-space"></div>
+        </div>
+      </div>
+      <div class="tabwrap sk-scope sk-demo">
+        <nav class="sk-tabbar"><div class="sk-tabbar__inner">
+          <a class="sk-tab is-on" href="#"><svg class="sk-icon"><use href="#i-home"/></svg>Today</a>
+          <a class="sk-tab" href="#"><svg class="sk-icon"><use href="#i-briefcase"/></svg>Jobs</a>
+          <a class="sk-tab" href="#"><svg class="sk-icon"><use href="#i-bell"/></svg>Alerts<span class="sk-tab__badge">3</span></a>
+          <a class="sk-tab" href="#"><svg class="sk-icon"><use href="#i-search"/></svg>Search</a>
+          <a class="sk-tab" href="#"><svg class="sk-icon"><use href="#i-more"/></svg>More</a>
+        </div></nav>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+  var cols = document.getElementById("cols"), tpl = document.getElementById("phone");
+  var names = ["home","list","doc","folder","search","plus","close","check","chevron-right","chevron-left","alert","info","bell","calendar","clock","user","users","building","house","briefcase","upload","download","share","phone","mail","pin","camera","settings","more","lock","filter","trash","edit","link","bolt","fan","wifi-off","chart","dollar","note","star","trophy","send","refresh","logout","globe","tools","clipboard","tv","backspace","face-id","minus","chevron-down"];
+  [["Light","light",""],["Dark","dark",""],["Sharma Track theme (light)","light","track"]].forEach(function(v){
+    var n = tpl.content.cloneNode(true);
+    n.querySelector(".lbl").textContent = v[0];
+    n.querySelectorAll(".sk-scope").forEach(function(s){ s.setAttribute("data-scheme", v[1]); if (v[2]) s.setAttribute("data-theme", v[2]); });
+    if (v[2]) { n.querySelector("[data-apptitle]").textContent = "Sharma Track"; n.querySelector("[data-logo]").src = "assets/logo.png"; }
+    n.querySelector("[data-icons]").innerHTML = names.map(function(x){ return "<div>"+SK.icon(x)+x+"</div>"; }).join("");
+    cols.appendChild(n);
+  });
+  document.querySelectorAll("[data-lock]").forEach(function(el){
+    SK.lock(el, { app:"My Day", logo:"assets/logo-white-lock.png", mode:"pad", length:6, action:"#", footer:"Sharma Electric & HVAC" });
+    el.querySelectorAll(".sk-lock__dots i").forEach(function(d,i){ if(i<2) d.classList.add("is-on"); });
+  });
+});
+</script>
+</body>
+</html>
