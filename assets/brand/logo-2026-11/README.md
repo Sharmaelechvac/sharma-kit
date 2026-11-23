@@ -4,8 +4,10 @@ Sanjay made this the official logo on 22 Nov 2026.
 
 ## Files
 
-- `logo-color.svg` / `.png` / `.pdf` — color lockup: navy `#264387` wordmark, lion, and tagline; gold `#F0A846` bolt and breath; transparent background. Use on white.
-- `logo-white.svg` / `.png` / `.pdf` — white wordmark, lion, and tagline; gold accents; transparent background. Use on navy `#264387` or dark navy `#1a2f61` headers, and other dark backgrounds.
+- `logo-color.svg` — color lockup: navy `#264387` wordmark, lion, and tagline; gold `#F0A846` bolt and breath; transparent background. Use on white.
+- `logo-white.svg` — white wordmark, lion, and tagline; gold accents; transparent background. Use on navy `#264387` or dark navy `#1a2f61` headers, and other dark backgrounds.
+
+Print PNG and PDF of the same art belong in this folder as `logo-color.png` / `.pdf` and `logo-white.png` / `.pdf` when added.
 
 ## Rules
 
